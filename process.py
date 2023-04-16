@@ -1,10 +1,13 @@
 from PyQt6 import QtCore, QtGui
-from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QFormLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QFormLayout
 from PyQt6.uic import loadUi
 
 import sys
-import file_funcs.DocFile as DocFile
+from home import MainUI
 from tkinter import filedialog as fd
+
+import file_funcs.DocFile as DocFile
+import run_algorithm
 
 class ProcessUI(QWidget):
       def __init__(self, type = '', method = ''):
@@ -12,11 +15,13 @@ class ProcessUI(QWidget):
         self.method = method
         super(ProcessUI, self).__init__()
         loadUi("./screen_process.ui", self)
+        
 
         #------------------------------------ Variables -----------------------------------------------
         self.arr = []
-        self.plainText = ''
+        self.text = ''
         self.cipherText = ''
+        self.key = ''
 
         #------------------------------------ Functions -----------------------------------------------
         def setupAlgorithms():
@@ -33,14 +38,46 @@ class ProcessUI(QWidget):
             else:
                 return ["1", "2", "3"]
             
+        def readFile():
+            filetypes = (('text files', '*.txt'),)
+            
+            filename = fd.askopenfilename(
+                title='Open a file',
+                initialdir='./texts',
+                filetypes=filetypes
+            )
+
+            # Lưu đường dẫn và gọi phương thức đọc file
+            self.file_path = filename
+            if(self.file_path != ''):
+                self.text = DocFile.DocFile(self.file_path)
+
+            # Thêm nội dung gốc vào input
+            self.textEdit.setText(''.join(self.text));
+        
+        def runAlgorithm():
+            self.key = str(self.input_key.toPlainText())
+            result = run_algorithm.Run(self.type, self.picked_algorithm, ''.join(self.text), self.key)
+
+            self.textEdit_2.setText(result)
+            # print(result)
         #------------------------------------ Update variables -----------------------------------------------
         self.arr = setupAlgorithms()
-        self.picked_method = self.arr[0]
+        self.picked_algorithm = self.arr[0]
+
+
+        #------------------------------------ SET component ------------------------------------------------------------
+
+        self.label_main_title.setText(f"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:600;\">{self.type} với {self.picked_algorithm}</span></p></body></html>")
+
+        self.btn_readFile.clicked.connect(readFile)
+
+        self.process_btn.clicked.connect(runAlgorithm)
 
         #------------------------------------ Button các phương pháp ------------------------------------
         def onClickAlgorithm(text):
-            self.picked_method = text
-            self.label_main_title.setText(f"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:600;\">Mã hoá với {self.picked_method}</span></p></body></html>")
+            self.picked_algorithm = text
+            self.label_main_title.setText(f"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:600;\">{self.type} với {self.picked_algorithm}</span></p></body></html>")
             
         for i in range (len(self.arr)):
             self.btn = QPushButton('{}'.format(self.arr[i]), self.frame_3)
