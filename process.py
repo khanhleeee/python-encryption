@@ -90,7 +90,6 @@ class ProcessUI(QWidget):
         for i in range (len(self.arr)):
             self.btn = QPushButton('{}'.format(self.arr[i]), self.frame_3)
             
-            
             self.btn.setMinimumSize(QtCore.QSize(0, 50))
             self.btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
             self.btn.setMouseTracking(False)

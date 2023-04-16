@@ -1,13 +1,34 @@
 import algorithms.ceasar as Caesar
+import algorithms.vignere as Vignere
+import algorithms.belasco as Belasco
+import algorithms.trithemius as Trithemius
+
 
 def Run(type, algorithm, text, key):
 
    if(type == "Mã hoá"):
       match algorithm:
          case "Caesar":
-            return runCaesar(text, key) 
+            return Caesar.MaHoa(text, key) 
+         case "Vignere":
+            return Vignere.MaHoa(text, key)
+         case "Belasco":
+            return Belasco.MaHoa(text, key)
+         case "Trithemius":
+            return Trithemius.MaHoa(text)
+   else:
+      match algorithm:
+         case "Caesar":
+            return Caesar.GiaiMa(text, key) 
+         case "Vignere":
+            return Vignere.GiaiMa(text, key)
+         case "Belasco":
+            return Belasco.GiaiMa(text, key)
+         case "Trithemius":
+            return Trithemius.GiaiMa(text)
 
-def runCaesar(text, key):
-   return Caesar.MaHoa(text, key)
+
+
+
 
 
