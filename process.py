@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QWidget, QPushButton, QFormLayout
 from PyQt6.uic import loadUi
 
 import sys
-from home import MainUI
+
 from tkinter import filedialog as fd
 
 import file_funcs.DocFile as DocFile
@@ -36,7 +36,15 @@ class ProcessUI(QWidget):
                     case "DES":
                         return ["Des"]
             else:
-                return ["1", "2", "3"]
+                match method:
+                    case "Thay thế":
+                        return ["Caesar", "Vignere", "Belasco", "Trithemius"]
+                    case "Chuyển vị":
+                        return ["Chuyển vị 1 dòng", "Chuyển vị nhiều dòng"]
+                    case "XOR":
+                        return ["XOR Caesar", "XOR Vignere", "XOR Belasco", "XOR Trithemius"]
+                    case "DES":
+                        return ["Des"]
             
         def readFile():
             filetypes = (('text files', '*.txt'),)
