@@ -54,3 +54,4 @@ if __name__ == "__main__":
     w = MainUI()
     w.show()
     app.exec()
+
