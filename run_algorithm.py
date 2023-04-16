@@ -5,9 +5,12 @@ def Run(type, algorithm, text, key):
    if(type == "Mã hoá"):
       match algorithm:
          case "Caesar":
-            return runCaesar(text, key) 
+             return Caesar.MaHoa(text, key)
+   else:
+      match algorithm:
+         case "Caesar":
+             return Caesar.GiaiMa(text, key)
 
-def runCaesar(text, key):
-   return Caesar.MaHoa(text, key)
+  
 
 

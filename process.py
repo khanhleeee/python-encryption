@@ -7,6 +7,7 @@ import sys
 from tkinter import filedialog as fd
 
 import file_funcs.DocFile as DocFile
+import file_funcs.LuuFile as LuuFile
 import run_algorithm
 
 class ProcessUI(QWidget):
@@ -22,6 +23,7 @@ class ProcessUI(QWidget):
         self.text = ''
         self.cipherText = ''
         self.key = ''
+        self.fileName = ''
 
         #------------------------------------ Functions -----------------------------------------------
         def setupAlgorithms():
@@ -63,8 +65,16 @@ class ProcessUI(QWidget):
             # Thêm nội dung gốc vào input
             self.textEdit.setText(''.join(self.text));
         
+        def saveFile():
+            self.cipherText= str(self.textEdit_2.toPlainText())
+            self.fileName= str(self.input_fileName.toPlainText())
+
+            result = LuuFile.GhiFile(self.cipherText, self.fileName)
+
+       
         def runAlgorithm():
             self.key = str(self.input_key.toPlainText())
+            self.text = str(self.textEdit.toPlainText())
             result = run_algorithm.Run(self.type, self.picked_algorithm, ''.join(self.text), self.key)
 
             self.textEdit_2.setText(result)
@@ -81,6 +91,8 @@ class ProcessUI(QWidget):
         self.btn_readFile.clicked.connect(readFile)
 
         self.process_btn.clicked.connect(runAlgorithm)
+
+        self.btn_saveFile.clicked.connect(saveFile)
 
         #------------------------------------ Button các phương pháp ------------------------------------
         def onClickAlgorithm(text):

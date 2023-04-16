@@ -41,13 +41,13 @@ class MainUI(QMainWindow):
 
       # Giai hoa  
       def chooseGiaiMaThayThe(self):
-         self.openProcessWindow("Giải hoá", "Thay thế")
+         self.openProcessWindow("Giải mã", "Thay thế")
       def chooseGiaiMaChuyenVi(self):
-         self.openProcessWindow("Giải hoá", "Chuyển vị")
+         self.openProcessWindow("Giải mã", "Chuyển vị")
       def chooseGiaiMaXOR(self):
-         self.openProcessWindow("Giải hoá", "XOR")
+         self.openProcessWindow("Giải mã", "XOR")
       def chooseGiaiMaDES(self):
-         self.openProcessWindow("Giải hoá", "DES")
+         self.openProcessWindow("Giải mã", "DES")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
