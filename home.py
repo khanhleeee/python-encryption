@@ -22,7 +22,7 @@ class MainUI(QMainWindow):
          self.action_mh_xor.triggered.connect(self.chooseMahoaXOR)
          self.action_mh_des.triggered.connect(self.chooseMahoaDES)
 
-         # Giai hoa
+         # Giai ma
          self.action_gm_thaythe.triggered.connect(self.chooseGiaiMaThayThe)
          self.action_gm_chuyenvi.triggered.connect(self.chooseGiaiMaChuyenVi)
          self.action_gm_xor.triggered.connect(self.chooseGiaiMaXOR)
@@ -39,15 +39,15 @@ class MainUI(QMainWindow):
       def chooseMahoaDES(self):
          self.openProcessWindow("Mã hoá", "DES")
 
-      # Giai hoa  
+      # Giai ma  
       def chooseGiaiMaThayThe(self):
-         self.openProcessWindow("Giải hoá", "Thay thế")
+         self.openProcessWindow("Giải mã", "Thay thế")
       def chooseGiaiMaChuyenVi(self):
-         self.openProcessWindow("Giải hoá", "Chuyển vị")
+         self.openProcessWindow("Giải mã", "Chuyển vị")
       def chooseGiaiMaXOR(self):
-         self.openProcessWindow("Giải hoá", "XOR")
+         self.openProcessWindow("Giải mã", "XOR")
       def chooseGiaiMaDES(self):
-         self.openProcessWindow("Giải hoá", "DES")
+         self.openProcessWindow("Giải mã", "DES")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
