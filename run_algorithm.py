@@ -27,8 +27,3 @@ def Run(type, algorithm, text, key):
          case "Trithemius":
             return Trithemius.GiaiMa(text)
 
-
-
-
-
-

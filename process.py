@@ -1,3 +1,4 @@
+
 from PyQt6 import QtCore, QtGui
 from PyQt6.QtWidgets import QWidget, QPushButton, QFormLayout
 from PyQt6.uic import loadUi
@@ -7,6 +8,7 @@ import sys
 from tkinter import filedialog as fd
 
 import file_funcs.DocFile as DocFile
+import file_funcs.LuuFile as LuuFile
 import run_algorithm
 
 class ProcessUI(QWidget):
@@ -22,6 +24,7 @@ class ProcessUI(QWidget):
         self.text = ''
         self.cipherText = ''
         self.key = ''
+        self.fileName = ''
 
         #------------------------------------ Functions -----------------------------------------------
         def setupAlgorithms():
@@ -63,8 +66,16 @@ class ProcessUI(QWidget):
             # Thêm nội dung gốc vào input
             self.textEdit.setText(''.join(self.text));
         
+        def saveFile():
+            self.cipherText= str(self.textEdit_2.toPlainText())
+            self.fileName= str(self.input_fileName.toPlainText())
+
+            result = LuuFile.GhiFile(self.cipherText, self.fileName)
+
+       
         def runAlgorithm():
             self.key = str(self.input_key.toPlainText())
+            self.text = str(self.textEdit.toPlainText())
             result = run_algorithm.Run(self.type, self.picked_algorithm, ''.join(self.text), self.key)
 
             self.textEdit_2.setText(result)
@@ -82,6 +93,8 @@ class ProcessUI(QWidget):
 
         self.process_btn.clicked.connect(runAlgorithm)
 
+        self.btn_saveFile.clicked.connect(saveFile)
+
         #------------------------------------ Button các phương pháp ------------------------------------
         def onClickAlgorithm(text):
             self.picked_algorithm = text
@@ -89,6 +102,7 @@ class ProcessUI(QWidget):
             
         for i in range (len(self.arr)):
             self.btn = QPushButton('{}'.format(self.arr[i]), self.frame_3)
+            
             
             self.btn.setMinimumSize(QtCore.QSize(0, 50))
             self.btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
@@ -127,3 +141,4 @@ class ProcessUI(QWidget):
 
 
         
+
