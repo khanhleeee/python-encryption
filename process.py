@@ -82,10 +82,21 @@ class ProcessUI(QWidget):
 
         self.process_btn.clicked.connect(runAlgorithm)
 
+        
+
         #------------------------------------ Button các phương pháp ------------------------------------
         def onClickAlgorithm(text):
             self.picked_algorithm = text
             self.label_main_title.setText(f"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:600;\">{self.type} với {self.picked_algorithm}</span></p></body></html>")
+            self.textEdit_2.setText('');
+            if(self.picked_algorithm == "Trithemius"):
+                self.input_key.setHidden(True)
+                self.label_key.setHidden(True)
+            else:
+                self.input_key.setHidden(False)   
+                self.label_key.setHidden(False)      
+
+          
             
         for i in range (len(self.arr)):
             self.btn = QPushButton('{}'.format(self.arr[i]), self.frame_3)
