@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui
-from PyQt6.QtWidgets import QWidget, QPushButton, QFormLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QFormLayout, QMessageBox
 from PyQt6.uic import loadUi
 
 import sys
@@ -32,7 +32,7 @@ class ProcessUI(QWidget):
                     case "Thay thế":
                         return ["Caesar", "Vignere", "Belasco", "Trithemius"]
                     case "Chuyển vị":
-                        return ["Chuyển vị 1 dòng", "Chuyển vị nhiều dòng"]
+                        return ["Chuyển vị 2 dòng", "Chuyển vị nhiều dòng"]
                     case "XOR":
                         return ["XOR Caesar", "XOR Vignere", "XOR Belasco", "XOR Trithemius"]
                     case "DES":
@@ -42,7 +42,7 @@ class ProcessUI(QWidget):
                     case "Thay thế":
                         return ["Caesar", "Vignere", "Belasco", "Trithemius"]
                     case "Chuyển vị":
-                        return ["Chuyển vị 1 dòng", "Chuyển vị nhiều dòng"]
+                        return ["Chuyển vị 2 dòng", "Chuyển vị nhiều dòng"]
                     case "XOR":
                         return ["XOR Caesar", "XOR Vignere", "XOR Belasco", "XOR Trithemius"]
                     case "DES":
@@ -69,16 +69,29 @@ class ProcessUI(QWidget):
             self.cipherText= str(self.textEdit_2.toPlainText())
             self.fileName= str(self.input_fileName.toPlainText())
 
-            result = LuuFile.GhiFile(self.cipherText, self.fileName)
+            result = LuuFile.GhiFile(self.cipherText, self.fileName + '.txt')
+            
+        def showDialogSaveSuccess():
+            msgBox = QMessageBox()
+            msgBox.setText("Lưu file thành công.")
+            msgBox.setWindowTitle("Thông báo")
+            msgBox.setStyleSheet("QLabel {min-width: 300px; min-height: 70px;}")
 
-       
+            returnValue = msgBox.exec()
+            if returnValue == QMessageBox.StandardButton.Ok:
+                self.textEdit =  self.textEdit.setText('')
+                self.input_key = self.input_key.setText('')
+                self.textEdit_2 = self.textEdit_2.setText('')
+                self.input_fileName = self.input_fileName.setText('')
+            
+    
         def runAlgorithm():
-            self.key = str(self.input_key.toPlainText())
-            self.text = str(self.textEdit.toPlainText())
-            result = run_algorithm.Run(self.type, self.picked_algorithm, ''.join(self.text), self.key)
+                self.key = str(self.input_key.toPlainText())
+                self.text = str(self.textEdit.toPlainText())
+                result = run_algorithm.Run(self.type, self.picked_algorithm, ''.join(self.text), self.key)
 
-            self.textEdit_2.setText(result)
-            # print(result)
+                self.textEdit_2.setText(result)
+                # print(result)
         #------------------------------------ Update variables -----------------------------------------------
         self.arr = setupAlgorithms()
         self.picked_algorithm = self.arr[0]
@@ -93,6 +106,8 @@ class ProcessUI(QWidget):
         self.process_btn.clicked.connect(runAlgorithm)
 
         self.btn_saveFile.clicked.connect(saveFile)
+
+        self.btn_saveFile.clicked.connect(showDialogSaveSuccess)
 
         #------------------------------------ Button các phương pháp ------------------------------------
         def onClickAlgorithm(text):
