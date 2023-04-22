@@ -1,5 +1,6 @@
+
 from PyQt6 import QtCore, QtGui
-from PyQt6.QtWidgets import QWidget, QPushButton, QFormLayout
+from PyQt6.QtWidgets import QWidget, QPushButton, QFormLayout, QMessageBox
 from PyQt6.uic import loadUi
 
 import sys
@@ -7,6 +8,7 @@ import sys
 from tkinter import filedialog as fd
 
 import file_funcs.DocFile as DocFile
+import file_funcs.LuuFile as LuuFile
 import run_algorithm
 
 class ProcessUI(QWidget):
@@ -22,6 +24,7 @@ class ProcessUI(QWidget):
         self.text = ''
         self.cipherText = ''
         self.key = ''
+        self.fileName = ''
 
         #------------------------------------ Functions -----------------------------------------------
         def setupAlgorithms():
@@ -30,7 +33,7 @@ class ProcessUI(QWidget):
                     case "Thay thế":
                         return ["Caesar", "Vignere", "Belasco", "Trithemius"]
                     case "Chuyển vị":
-                        return ["Chuyển vị 1 dòng", "Chuyển vị nhiều dòng"]
+                        return ["Chuyển vị 2 dòng", "Chuyển vị nhiều dòng"]
                     case "XOR":
                         return ["XOR Caesar", "XOR Vignere", "XOR Belasco", "XOR Trithemius"]
                     case "DES":
@@ -40,7 +43,7 @@ class ProcessUI(QWidget):
                     case "Thay thế":
                         return ["Caesar", "Vignere", "Belasco", "Trithemius"]
                     case "Chuyển vị":
-                        return ["Chuyển vị 1 dòng", "Chuyển vị nhiều dòng"]
+                        return ["Chuyển vị 2 dòng", "Chuyển vị nhiều dòng"]
                     case "XOR":
                         return ["XOR Caesar", "XOR Vignere", "XOR Belasco", "XOR Trithemius"]
                     case "DES":
@@ -63,12 +66,33 @@ class ProcessUI(QWidget):
             # Thêm nội dung gốc vào input
             self.textEdit.setText(''.join(self.text));
         
-        def runAlgorithm():
-            self.key = str(self.input_key.toPlainText())
-            result = run_algorithm.Run(self.type, self.picked_algorithm, ''.join(self.text), self.key)
+        def saveFile():
+            self.cipherText= str(self.textEdit_2.toPlainText())
+            self.fileName= str(self.input_fileName.toPlainText())
 
-            self.textEdit_2.setText(result)
-            # print(result)
+            result = LuuFile.GhiFile(self.cipherText, self.fileName + '.txt')
+            
+        def showDialogSaveSuccess():
+            msgBox = QMessageBox()
+            msgBox.setText("Lưu file thành công.")
+            msgBox.setWindowTitle("Thông báo")
+            msgBox.setStyleSheet("QLabel {min-width: 300px; min-height: 70px;}")
+
+            returnValue = msgBox.exec()
+            if returnValue == QMessageBox.StandardButton.Ok:
+                self.textEdit =  self.textEdit.setText('')
+                self.input_key = self.input_key.setText('')
+                self.textEdit_2 = self.textEdit_2.setText('')
+                self.input_fileName = self.input_fileName.setText('')
+            
+    
+        def runAlgorithm():
+                self.key = str(self.input_key.toPlainText())
+                self.text = str(self.textEdit.toPlainText())
+                result = run_algorithm.Run(self.type, self.picked_algorithm, ''.join(self.text), self.key)
+
+                self.textEdit_2.setText(result)
+                # print(result)
         #------------------------------------ Update variables -----------------------------------------------
         self.arr = setupAlgorithms()
         self.picked_algorithm = self.arr[0]
@@ -81,8 +105,6 @@ class ProcessUI(QWidget):
         self.btn_readFile.clicked.connect(readFile)
 
         self.process_btn.clicked.connect(runAlgorithm)
-
-        
 
         #------------------------------------ Button các phương pháp ------------------------------------
         def onClickAlgorithm(text):
@@ -100,6 +122,7 @@ class ProcessUI(QWidget):
             
         for i in range (len(self.arr)):
             self.btn = QPushButton('{}'.format(self.arr[i]), self.frame_3)
+            
             
             self.btn.setMinimumSize(QtCore.QSize(0, 50))
             self.btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
@@ -138,3 +161,4 @@ class ProcessUI(QWidget):
 
 
         
+
