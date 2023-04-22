@@ -21,7 +21,10 @@ def Run(type, algorithm, text, key):
          case "Chuyển vị 2 dòng":
              return ChuyenVi2Dong.MaHoa(text)
          case "Chuyển vị nhiều dòng":
-             return ChuyenViNhieuDong.MaHoa(text, key)
+            keyArray = key.split(',')
+            keyArray = [int(x) for x in keyArray]
+            print("keyArray", keyArray)
+            return ChuyenViNhieuDong.MaHoa(text, keyArray)
    else:
       match algorithm:
          case "Caesar":
@@ -35,4 +38,6 @@ def Run(type, algorithm, text, key):
          case "Chuyển vị 2 dòng":
              return ChuyenVi2Dong.GiaiMa(text)
          case "Chuyển vị nhiều dòng":
-             return ChuyenViNhieuDong.GiaiMa(text, key)
+            keyArray = key.split(',')
+            keyArray = [int(x) for x in keyArray]
+            return ChuyenViNhieuDong.GiaiMa(text, keyArray)

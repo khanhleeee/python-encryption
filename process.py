@@ -97,6 +97,12 @@ class ProcessUI(QWidget):
         self.arr = setupAlgorithms()
         self.picked_algorithm = self.arr[0]
 
+        if(self.picked_algorithm == "Trithemius" or self.picked_algorithm == "Chuyển vị 2 dòng"):
+            self.input_key.setHidden(True)
+            self.label_key.setHidden(True)
+        else:
+            self.input_key.setHidden(False)   
+            self.label_key.setHidden(False)   
 
         #------------------------------------ SET component ------------------------------------------------------------
 
@@ -106,12 +112,17 @@ class ProcessUI(QWidget):
 
         self.process_btn.clicked.connect(runAlgorithm)
 
+        self.btn_saveFile.clicked.connect(saveFile)
+
+        self.btn_saveFile.clicked.connect(showDialogSaveSuccess)
+
         #------------------------------------ Button các phương pháp ------------------------------------
         def onClickAlgorithm(text):
             self.picked_algorithm = text
             self.label_main_title.setText(f"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:600;\">{self.type} với {self.picked_algorithm}</span></p></body></html>")
             self.textEdit_2.setText('');
-            if(self.picked_algorithm == "Trithemius"):
+
+            if(self.picked_algorithm == "Trithemius" or self.picked_algorithm == "Chuyển vị 2 dòng"):
                 self.input_key.setHidden(True)
                 self.label_key.setHidden(True)
             else:
@@ -122,8 +133,6 @@ class ProcessUI(QWidget):
             
         for i in range (len(self.arr)):
             self.btn = QPushButton('{}'.format(self.arr[i]), self.frame_3)
-            
-            
             self.btn.setMinimumSize(QtCore.QSize(0, 50))
             self.btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
             self.btn.setMouseTracking(False)

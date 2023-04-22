@@ -310,7 +310,7 @@ QPushButton:hover {
 }</string>
            </property>
            <property name="text">
-            <string>PushButton</string>
+            <string>Xử lý</string>
            </property>
           </widget>
          </item>
