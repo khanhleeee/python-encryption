@@ -1,10 +1,12 @@
-
+import time
 #=======GHI CHU
 #==MAHOA
 def MaHoa (plaintext, key):
     # cau lenh cha co dau :
+    t0 = time.time()
     ciphertext=""
     # doi voi python ' hay " la nhu nhau
+    
     for c in plaintext:
         if c!=' ' and c != '\n':
             so = ord(c) - 33;
@@ -13,6 +15,9 @@ def MaHoa (plaintext, key):
             ciphertext = ciphertext + chr(so+33)
         else:
             ciphertext=ciphertext+c
+    
+    print("Running time: %8.6f s" %(time.time() - t0))
+
     return ciphertext
 
 #========================================GIAIMA
@@ -25,6 +30,7 @@ def GiaiMa(ciphertext, key):
             plaintext = plaintext + chr(so+33)
         else:
             plaintext = plaintext + c
+    print(type(plaintext))
     return plaintext
 
 #==========================================RUN

@@ -4,10 +4,13 @@ import algorithms.belasco as Belasco
 import algorithms.trithemius as Trithemius
 import algorithms.chuyenvihaidong as ChuyenVi2Dong
 import algorithms.chuyenvinhieudong as ChuyenViNhieuDong
+import algorithms.sDes as Des
+import algorithms.Rsa.encode as encode
+import algorithms.Rsa.decode as decode
+
 
 
 def Run(type, algorithm, text, key):
-
    if(type == "Mã hoá"):
       match algorithm:
          case "Caesar":
@@ -25,6 +28,10 @@ def Run(type, algorithm, text, key):
             keyArray = [int(x) for x in keyArray]
             print("keyArray", keyArray)
             return ChuyenViNhieuDong.MaHoa(text, keyArray)
+         case "Des":
+            return Des.MaHoa(text, key)
+         case "Rsa":
+            return encode.encode(text)
    else:
       match algorithm:
          case "Caesar":
@@ -41,3 +48,8 @@ def Run(type, algorithm, text, key):
             keyArray = key.split(',')
             keyArray = [int(x) for x in keyArray]
             return ChuyenViNhieuDong.GiaiMa(text, keyArray)
+         case "Des":
+            return Des.GiaiMa(text, key)
+         case "Rsa":
+            return decode.decode(text, key)
+

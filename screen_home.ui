@@ -255,6 +255,7 @@
      <addaction name="action_mh_chuyenvi"/>
      <addaction name="action_mh_xor"/>
      <addaction name="action_mh_des"/>
+     <addaction name="action_mh_rsa"/>
     </widget>
     <widget class="QMenu" name="menu_giaima">
      <property name="title">
@@ -264,6 +265,7 @@
      <addaction name="action_gm_chuyenvi"/>
      <addaction name="action_gm_xor"/>
      <addaction name="action_gm_des"/>
+     <addaction name="action_gm_rsa"/>
     </widget>
     <addaction name="separator"/>
     <addaction name="menu_mahoa"/>
@@ -310,6 +312,16 @@
   <action name="action_gm_des">
    <property name="text">
     <string>Des</string>
+   </property>
+  </action>
+  <action name="action_gm_rsa">
+   <property name="text">
+    <string>Rsa</string>
+   </property>
+  </action>
+  <action name="action_mh_rsa">
+   <property name="text">
+    <string>Rsa</string>
    </property>
   </action>
  </widget>

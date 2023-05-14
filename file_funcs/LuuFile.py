@@ -1,8 +1,13 @@
 #SaveFile
 ##############################
-def GhiFile(lines, filename):
-    f = open(f"./texts/{filename}", 'w', encoding="utf-8")
+def GhiFile(lines, filename, key = ''):
+    f = open(f"./texts/{filename}.txt", 'w', encoding="utf-8")
     f.writelines(lines)
+
+    if(key != ''):
+        print(key)
+        f = open(f"./texts/{filename}_PrivateKey.txt", 'w', encoding="utf-8")
+        f.writelines(key)
 
 ##############################
 #GhiFile(lines)

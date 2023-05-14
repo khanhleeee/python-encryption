@@ -25,6 +25,7 @@ class ProcessUI(QWidget):
         self.cipherText = ''
         self.key = ''
         self.fileName = ''
+        self.privateKey = ''
 
         #------------------------------------ Functions -----------------------------------------------
         def setupAlgorithms():
@@ -38,6 +39,8 @@ class ProcessUI(QWidget):
                         return ["XOR Caesar", "XOR Vignere", "XOR Belasco", "XOR Trithemius"]
                     case "DES":
                         return ["Des"]
+                    case "Rsa":
+                        return ["Rsa"]
             else:
                 match method:
                     case "Thay thế":
@@ -48,6 +51,9 @@ class ProcessUI(QWidget):
                         return ["XOR Caesar", "XOR Vignere", "XOR Belasco", "XOR Trithemius"]
                     case "DES":
                         return ["Des"]
+                    case "Rsa":
+                        return ["Rsa"]
+                    
             
         def readFile():
             filetypes = (('text files', '*.txt'),)
@@ -61,6 +67,13 @@ class ProcessUI(QWidget):
             # Lưu đường dẫn và gọi phương thức đọc file
             self.file_path = filename
             if(self.file_path != ''):
+                if(self.picked_algorithm == "Rsa" and type == "Giải mã"):
+                    keyFilePath = self.file_path.split(".")
+                    keyFilePath = '_PrivateKey.'.join(keyFilePath)
+                    keyText = DocFile.DocFile(keyFilePath)
+
+                    self.input_key.setText(''.join(keyText))
+
                 self.text = DocFile.DocFile(self.file_path)
 
             # Thêm nội dung gốc vào input
@@ -70,7 +83,11 @@ class ProcessUI(QWidget):
             self.cipherText= str(self.textEdit_2.toPlainText())
             self.fileName= str(self.input_fileName.toPlainText())
 
-            result = LuuFile.GhiFile(self.cipherText, self.fileName + '.txt')
+            if(self.picked_algorithm == "Rsa"):
+                n,d = self.privateKey
+                LuuFile.GhiFile(self.cipherText, self.fileName, str(n) + '\n' + str(d))
+            else:    
+                LuuFile.GhiFile(self.cipherText, self.fileName)
             
         def showDialogSaveSuccess():
             msgBox = QMessageBox()
@@ -89,10 +106,16 @@ class ProcessUI(QWidget):
         def runAlgorithm():
                 self.key = str(self.input_key.toPlainText())
                 self.text = str(self.textEdit.toPlainText())
+                self.textEdit_2.setText('')
+
                 result = run_algorithm.Run(self.type, self.picked_algorithm, ''.join(self.text), self.key)
 
+                if(self.picked_algorithm == "Rsa" and type == "Mã hoá"):
+                    C, n, d = result
+                    self.privateKey = n,d
+                    result = C
+
                 self.textEdit_2.setText(result)
-                # print(result)
         #------------------------------------ Update variables -----------------------------------------------
         self.arr = setupAlgorithms()
         self.picked_algorithm = self.arr[0]
@@ -100,6 +123,14 @@ class ProcessUI(QWidget):
         if(self.picked_algorithm == "Trithemius" or self.picked_algorithm == "Chuyển vị 2 dòng"):
             self.input_key.setHidden(True)
             self.label_key.setHidden(True)
+        elif (self.picked_algorithm == "Rsa"):
+            if(type == "Mã hoá"):
+                self.input_key.setHidden(True)
+                self.label_key.setHidden(True)
+            else:
+                self.input_key.setHidden(False)
+                self.label_key.setHidden(False)
+                self.label_key.setText('Nhập private key: ')
         else:
             self.input_key.setHidden(False)   
             self.label_key.setHidden(False)   
@@ -155,7 +186,6 @@ class ProcessUI(QWidget):
             "    opacity: 80%;\n"
             "}")
             
-            # self.btn.setObjectName("btn")
             text = self.btn.text()
             self.btn.clicked.connect(lambda ch, text=text : onClickAlgorithm(text))
             self.algorithm_container.addWidget(self.btn)
