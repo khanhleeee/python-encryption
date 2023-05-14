@@ -4,6 +4,8 @@ import algorithms.belasco as Belasco
 import algorithms.trithemius as Trithemius
 import algorithms.chuyenvihaidong as ChuyenVi2Dong
 import algorithms.chuyenvinhieudong as ChuyenViNhieuDong
+import algorithms.RSA.encode as rsa_mahoa
+import algorithms.RSA.decode as rsa_giaima
 
 
 def Run(type, algorithm, text, key):
@@ -25,6 +27,8 @@ def Run(type, algorithm, text, key):
             keyArray = [int(x) for x in keyArray]
             print("keyArray", keyArray)
             return ChuyenViNhieuDong.MaHoa(text, keyArray)
+         case "Rsa":
+             return rsa_mahoa.encode(text)
    else:
       match algorithm:
          case "Caesar":
@@ -41,3 +45,5 @@ def Run(type, algorithm, text, key):
             keyArray = key.split(',')
             keyArray = [int(x) for x in keyArray]
             return ChuyenViNhieuDong.GiaiMa(text, keyArray)
+         case "Rsa":
+             return rsa_giaima.decode(text)

@@ -1,6 +1,6 @@
 
 from PyQt6 import QtCore, QtGui
-from PyQt6.QtWidgets import QWidget, QPushButton, QFormLayout, QMessageBox
+from PyQt6.QtWidgets import QWidget, QPushButton, QMessageBox
 from PyQt6.uic import loadUi
 
 import sys
@@ -10,6 +10,7 @@ from tkinter import filedialog as fd
 import file_funcs.DocFile as DocFile
 import file_funcs.LuuFile as LuuFile
 import run_algorithm
+
 
 class ProcessUI(QWidget):
       def __init__(self, type = '', method = ''):
@@ -38,6 +39,8 @@ class ProcessUI(QWidget):
                         return ["XOR Caesar", "XOR Vignere", "XOR Belasco", "XOR Trithemius"]
                     case "DES":
                         return ["Des"]
+                    case "RSA":
+                        return ["Rsa"]
             else:
                 match method:
                     case "Thay thế":
@@ -48,6 +51,8 @@ class ProcessUI(QWidget):
                         return ["XOR Caesar", "XOR Vignere", "XOR Belasco", "XOR Trithemius"]
                     case "DES":
                         return ["Des"]
+                    case "RSA":
+                        return ["Rsa"]
             
         def readFile():
             filetypes = (('text files', '*.txt'),)
@@ -97,7 +102,7 @@ class ProcessUI(QWidget):
         self.arr = setupAlgorithms()
         self.picked_algorithm = self.arr[0]
 
-        if(self.picked_algorithm == "Trithemius" or self.picked_algorithm == "Chuyển vị 2 dòng"):
+        if(self.picked_algorithm == "Trithemius" or self.picked_algorithm == "Chuyển vị 2 dòng" or self.picked_algorithm == "Rsa"):
             self.input_key.setHidden(True)
             self.label_key.setHidden(True)
         else:
@@ -122,7 +127,7 @@ class ProcessUI(QWidget):
             self.label_main_title.setText(f"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:600;\">{self.type} với {self.picked_algorithm}</span></p></body></html>")
             self.textEdit_2.setText('');
 
-            if(self.picked_algorithm == "Trithemius" or self.picked_algorithm == "Chuyển vị 2 dòng"):
+            if(self.picked_algorithm == "Trithemius" or self.picked_algorithm == "Chuyển vị 2 dòng" or self.picked_algorithm == "Rsa") :
                 self.input_key.setHidden(True)
                 self.label_key.setHidden(True)
             else:
